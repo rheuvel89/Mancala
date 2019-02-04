@@ -1,6 +1,10 @@
 package nl.sogyo.mancala;
 
-public class Kalaha extends Bowl {
+public class Kalaha implements IBowl {
+
+    protected IBowl neighbour;
+    protected Player owner;
+    protected int seeds = 4;
 
     public Kalaha(Player owner, int count, Bowl firstBowl) {
         this.owner = owner;
@@ -13,17 +17,18 @@ public class Kalaha extends Bowl {
         }
     }
 
-    public Bowl getCrossNeighbour() {
-        return this;
+    public int seedCount() {
+        return seeds;
     }
 
-    public Bowl getCrossNeighbour(int count) {
-        return neighbour.getCrossNeighbour(count);
+    public IBowl getNeighbour(int count) {
+        count--;
+        return count < 1 ? neighbour : neighbour.getNeighbour(count);
     }
 
     @Override
-    public boolean canSteal() {
-        return false;
+    public Bowl getCrossNeighbour(int count) {
+        return (Bowl)neighbour.getCrossNeighbour(count);
     }
 
     @Override
@@ -36,13 +41,14 @@ public class Kalaha extends Bowl {
     }
 
     @Override
-    public void moveSeeds(int count) {
+    public void moveSeeds(int count) { //TODO: Revisit, doesnt seem right
         boolean onMySide = owner.yourTurn();
-        if (onMySide && count > 1) {
+        if (onMySide) {
             count--;
             seeds++;
+        } if (count > 0) {
+            neighbour.moveSeeds(count);
         }
-        neighbour.moveSeeds(count);
     }
 
     @Override

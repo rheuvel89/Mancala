@@ -1,15 +1,11 @@
 package nl.sogyo.mancala;
 
-public class Bowl {
+public class Bowl implements IBowl {
 
-    protected Bowl neighbour;
+    protected IBowl neighbour;
     protected Player owner;
     protected int seeds = 4;
 
-
-    public Bowl() {}
-
-    // TODO: Bowl() creates Players! -> Make interface implemented by Kalaha and Bowl
     public Bowl(Player owner) {
         this.owner = owner;
         this.neighbour = new Bowl(owner, 13, this);
@@ -29,17 +25,13 @@ public class Bowl {
         return seeds;
     }
 
-    public Bowl getNeighbour() {
+    public IBowl getNeighbour() {
         return neighbour;
     }
 
-    public Bowl getNeighbour(int count) {
+    public IBowl getNeighbour(int count) {
         count--;
-        if (count < 1) {
-            return neighbour;
-        } else {
-            return neighbour.getNeighbour(count);
-        }
+        return count < 1 ? neighbour : neighbour.getNeighbour(count);
     }
 
     public void doTurn() {
@@ -74,18 +66,14 @@ public class Bowl {
     }
 
     public Bowl getCrossNeighbour() {
-        return neighbour.getCrossNeighbour(1);
+        return (Bowl)neighbour.getCrossNeighbour(1);
     }
 
     public Bowl getCrossNeighbour(int count) {
         boolean onMySide = owner.yourTurn();
         int change = onMySide ? 1 : -1;
         count += change;
-        if (count == 0) {
-            return this;
-        } else {
-            return neighbour.getCrossNeighbour(count);
-        }
+        return count == 0 ? this : (Bowl)neighbour.getCrossNeighbour(count);
     }
 
     public boolean canSteal() {
