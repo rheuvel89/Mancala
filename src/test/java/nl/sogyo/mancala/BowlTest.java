@@ -57,9 +57,8 @@ public class BowlTest {
     @Test
     public void testMoveSeeds() {
         setUp();
-        Bowl bowl = bowl1;
 
-        bowl.moveSeeds();
+        bowl1.moveSeeds();
         int count1 = bowl1.seedCount();
         int count2 = bowl1.getNeighbour().seedCount();
         int count3 = bowl1.getNeighbour(2).seedCount();
@@ -117,6 +116,7 @@ public class BowlTest {
         Assert.assertEquals(0, count14);
         Assert.assertEquals(5, count1);
         Assert.assertEquals(5, count2);
+        Assert.assertEquals(5, count3);
         Assert.assertEquals(4, count4);
 
         tearDown();
@@ -126,10 +126,9 @@ public class BowlTest {
     @Test
     public void testGettingNeighbourAcross() {
         setUp();
-        Bowl bowl = bowl1;
         Bowl expectedNeighbourAcross = bowl1.getNeighbour(12);
 
-        Bowl foundNeighbourAcross = bowl.getCrossNeighbour();
+        Bowl foundNeighbourAcross = bowl1.getCrossNeighbour();
 
         Assert.assertEquals(expectedNeighbourAcross, foundNeighbourAcross);
 
@@ -139,7 +138,6 @@ public class BowlTest {
     @Test
     public void testCanStealFromFullNeighbourAcross() {
         setUp();
-        Bowl bowl = bowl1;
         Bowl neighbourAcross = bowl1.getCrossNeighbour();
 
         boolean canSteal = neighbourAcross.canSteal();
@@ -152,7 +150,7 @@ public class BowlTest {
     public void testCanStealFromEmptyNeighbourAcross() {
         setUp();
         Bowl bowl = bowl1;
-        Bowl neighbourAcross = bowl1.getCrossNeighbour();
+        Bowl neighbourAcross = bowl.getCrossNeighbour();
         neighbourAcross.seeds = 0;
 
         boolean canSteal = neighbourAcross.canSteal();
@@ -165,7 +163,6 @@ public class BowlTest {
     @Test
     public void testStealingFromFullNeighbourAcross() {
         setUp();
-        Bowl bowl = bowl1;
         Bowl neighbourAcross = bowl1.getCrossNeighbour();
         Kalaha kalaha = (Kalaha)bowl1.getNeighbour(6);
 
@@ -259,6 +256,125 @@ public class BowlTest {
 
         Assert.assertTrue(isPlayer1Turn);
         Assert.assertFalse(isPlayer2Turn);
+
+        tearDown();
+    }
+
+    @Test
+    public void testEndGameByPlayer1() {
+        setUp();
+
+        bowl1.endGame();
+        int count1 = bowl1.seedCount();
+        int count2 = bowl1.getNeighbour(1).seedCount();
+        int count3 = bowl1.getNeighbour(2).seedCount();
+        int count4 = bowl1.getNeighbour(3).seedCount();
+        int count5 = bowl1.getNeighbour(4).seedCount();
+        int count6 = bowl1.getNeighbour(5).seedCount();
+        int count7 = bowl1.getNeighbour(6).seedCount();
+        int count8 = bowl1.getNeighbour(7).seedCount();
+        int count9 = bowl1.getNeighbour(8).seedCount();
+        int count10 = bowl1.getNeighbour(9).seedCount();
+        int count11 = bowl1.getNeighbour(10).seedCount();
+        int count12 = bowl1.getNeighbour(11).seedCount();
+        int count13 = bowl1.getNeighbour(12).seedCount();
+        int count14 = bowl1.getNeighbour(13).seedCount();
+
+        Assert.assertEquals(0, count1);
+        Assert.assertEquals(0, count2);
+        Assert.assertEquals(0, count3);
+        Assert.assertEquals(0, count4);
+        Assert.assertEquals(0, count5);
+        Assert.assertEquals(0, count6);
+        Assert.assertEquals(24, count7);
+        Assert.assertEquals(0, count8);
+        Assert.assertEquals(0, count9);
+        Assert.assertEquals(0, count10);
+        Assert.assertEquals(0, count11);
+        Assert.assertEquals(0, count12);
+        Assert.assertEquals(0, count13);
+        Assert.assertEquals(24, count14);
+
+        tearDown();
+    }
+
+    @Test
+    public void testEndGameByPlayer2() {
+        setUp();
+        Bowl bowl6 = bowl1.getNeighbour(5);
+
+        bowl6.doTurn();
+        bowl6.endGame();
+        int count1 = bowl1.seedCount();
+        int count2 = bowl1.getNeighbour(1).seedCount();
+        int count3 = bowl1.getNeighbour(2).seedCount();
+        int count4 = bowl1.getNeighbour(3).seedCount();
+        int count5 = bowl1.getNeighbour(4).seedCount();
+        int count6 = bowl1.getNeighbour(5).seedCount();
+        int count7 = bowl1.getNeighbour(6).seedCount();
+        int count8 = bowl1.getNeighbour(7).seedCount();
+        int count9 = bowl1.getNeighbour(8).seedCount();
+        int count10 = bowl1.getNeighbour(9).seedCount();
+        int count11 = bowl1.getNeighbour(10).seedCount();
+        int count12 = bowl1.getNeighbour(11).seedCount();
+        int count13 = bowl1.getNeighbour(12).seedCount();
+        int count14 = bowl1.getNeighbour(13).seedCount();
+
+        Assert.assertEquals(0, count1);
+        Assert.assertEquals(0, count2);
+        Assert.assertEquals(0, count3);
+        Assert.assertEquals(0, count4);
+        Assert.assertEquals(0, count5);
+        Assert.assertEquals(0, count6);
+        Assert.assertEquals(21, count7);
+        Assert.assertEquals(0, count8);
+        Assert.assertEquals(0, count9);
+        Assert.assertEquals(0, count10);
+        Assert.assertEquals(0, count11);
+        Assert.assertEquals(0, count12);
+        Assert.assertEquals(0, count13);
+        Assert.assertEquals(27, count14);
+
+        tearDown();
+    }
+
+    @Test
+    public void testGameIsDraw() {
+        setUp();
+
+        bowl1.endGame();
+        Player winner = bowl1.getWinner();
+
+        Assert.assertEquals(null, winner);
+
+        tearDown();
+    }
+
+    @Test
+    public void testGameWonByPlayer2() {
+        setUp();
+        Bowl bowl6 = bowl1.getNeighbour(5);
+
+        bowl6.doTurn();
+        bowl1.endGame();
+        Player winner = bowl1.getWinner();
+
+        Assert.assertEquals(bowl1.owner.getOpponent(), winner);
+
+        tearDown();
+    }
+
+    @Test
+    public void testGameWonByPlayer1() {
+        setUp();
+        Bowl bowl13 = bowl1.getNeighbour(12);
+
+        bowl1.doTurn();
+        bowl13.doTurn();
+        bowl1.endGame();
+        Player winner = bowl1.getWinner();
+
+        Assert.assertEquals(bowl1.owner, winner);
 
         tearDown();
     }

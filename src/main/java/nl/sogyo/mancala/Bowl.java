@@ -45,14 +45,12 @@ public class Bowl {
     public void doTurn() {
         if (owner.yourTurn()) {
             moveSeeds();
-            gameOver(this);
         }
     }
 
     public void moveSeeds() {
         neighbour.moveSeeds(seeds);
         seeds = 0;
-
     }
 
     public void moveSeeds(int count) {
@@ -113,8 +111,31 @@ public class Bowl {
         return seeds == 0 || !onMySide ? startingBowl == this ? true : neighbour.gameOver(startingBowl) : false;
     }
 
+    public void endGame() {
+        int count = seeds;
+        seeds = 0;
+        neighbour.endGame(count);
+    }
 
+    public void endGame(int count) {
+        count += seeds;
+        seeds = 0;
+        neighbour.endGame(count);
+    }
 
+    public void endGame(Kalaha firstKalaha, int count) {
+        count += seeds;
+        seeds = 0;
+        neighbour.endGame(firstKalaha, count);
+    }
+
+    public Player getWinner() {
+        return neighbour.getWinner();
+    }
+
+    public Player getWinner(int seedsOppositePlayer) {
+        return neighbour.getWinner(seedsOppositePlayer);
+    }
 
 
 }

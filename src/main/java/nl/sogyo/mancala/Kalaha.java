@@ -13,10 +13,6 @@ public class Kalaha extends Bowl {
         }
     }
 
-    @Override
-    public void doTurn() {
-    }
-
     public Bowl getCrossNeighbour() {
         return this;
     }
@@ -49,8 +45,33 @@ public class Kalaha extends Bowl {
         neighbour.moveSeeds(count);
     }
 
+    @Override
     public boolean gameOver(Bowl startingBowl) {
         return neighbour.gameOver(startingBowl);
+    }
+
+    @Override
+    public void endGame(int count) {
+        seeds += count;
+        neighbour.endGame(this, 0);
+    }
+
+    @Override
+    public void endGame(Kalaha firstKalaha, int count) {
+        seeds += count;
+        if (firstKalaha != this) {
+            neighbour.endGame(firstKalaha, 0);
+        }
+    }
+
+    @Override
+    public Player getWinner() {
+        return neighbour.getWinner(seeds);
+    }
+
+    @Override
+    public Player getWinner(int seedsOppositePlayer) { //TODO: Returning null on draw
+        return seeds != seedsOppositePlayer ? seeds > seedsOppositePlayer ? owner : owner.getOpponent() : null;
     }
 
 }
