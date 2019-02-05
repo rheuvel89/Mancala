@@ -1,5 +1,7 @@
 package nl.sogyo.mancala;
 
+import java.util.ArrayList;
+
 public interface IBowl {
 
     public int seedCount();
@@ -8,7 +10,7 @@ public interface IBowl {
 
     public void moveSeeds(int count);
 
-    public IBowl getCrossNeighbour(int count);
+    public IBowl getCrossNeighbour(int count, boolean countingUp);
 
     public void steal(int count);
 

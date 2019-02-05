@@ -1,10 +1,12 @@
 package nl.sogyo.mancala;
 
+import java.util.ArrayList;
+
 public class Bowl implements IBowl {
 
-    protected IBowl neighbour;
-    protected Player owner;
-    protected int seeds = 4;
+    private IBowl neighbour;
+    private Player owner;
+    private int seeds = 4;
 
     public Bowl(Player owner) {
         this.owner = owner;
@@ -21,8 +23,16 @@ public class Bowl implements IBowl {
         }
     }
 
+    protected Player getOwner() {
+        return owner;
+    }
+
     public int seedCount() {
         return seeds;
+    }
+
+    protected void setSeeds(int count) {
+        seeds = count;
     }
 
     public IBowl getNeighbour() {
@@ -31,7 +41,7 @@ public class Bowl implements IBowl {
 
     public IBowl getNeighbour(int count) {
         count--;
-        return count < 1 ? neighbour : neighbour.getNeighbour(count);
+        return count < 0 ? this : count == 0 ? neighbour : neighbour.getNeighbour(count);
     }
 
     public void doTurn() {
@@ -41,8 +51,10 @@ public class Bowl implements IBowl {
     }
 
     public void moveSeeds() {
-        neighbour.moveSeeds(seeds);
-        seeds = 0;
+        if (seeds > 0) {
+            neighbour.moveSeeds(seeds);
+            seeds = 0;
+        }
     }
 
     public void moveSeeds(int count) {
@@ -61,23 +73,24 @@ public class Bowl implements IBowl {
 
     private void trySteal(Bowl neighbourAcross) {
         boolean canSteal = neighbourAcross.canSteal();
-        if (canSteal)
+        if (canSteal) {
             neighbourAcross.steal();
+            seeds = 0;
+        }
     }
 
     public Bowl getCrossNeighbour() {
-        return (Bowl)neighbour.getCrossNeighbour(1);
+        return (Bowl)neighbour.getCrossNeighbour(1, true);
     }
 
-    public Bowl getCrossNeighbour(int count) {
-        boolean onMySide = owner.yourTurn();
-        int change = onMySide ? 1 : -1;
+    public Bowl getCrossNeighbour(int count, boolean countingUp) {
+        int change = countingUp ? 1 : -1;
         count += change;
-        return count == 0 ? this : (Bowl)neighbour.getCrossNeighbour(count);
+        return count == 0 ? this : (Bowl)neighbour.getCrossNeighbour(count, countingUp);
     }
 
     public boolean canSteal() {
-        return seeds > 0;
+        return !owner.yourTurn() && seeds > 0;
     }
 
     public void steal() {
@@ -100,9 +113,11 @@ public class Bowl implements IBowl {
     }
 
     public void endGame() {
-        int count = seeds;
-        seeds = 0;
-        neighbour.endGame(count);
+        if (gameOver()) {
+            int count = seeds;
+            seeds = 0;
+            neighbour.endGame(count);
+        }
     }
 
     public void endGame(int count) {
@@ -118,11 +133,32 @@ public class Bowl implements IBowl {
     }
 
     public Player getWinner() {
-        return neighbour.getWinner();
+        return gameOver() ? neighbour.getWinner() : null;
     }
 
     public Player getWinner(int seedsOppositePlayer) {
         return neighbour.getWinner(seedsOppositePlayer);
+    }
+
+    public String getGameState(IBowl firstBowl) {
+        String returnString = "";
+        returnString += "   " + firstBowl.getNeighbour(12).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(11).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(10).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(9).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(8).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(7).seedCount();
+        returnString += "  \n";
+        returnString += firstBowl.getNeighbour(13).seedCount() +
+                        "                    " +
+                        firstBowl.getNeighbour(6).seedCount() + "\n";
+        returnString += "   " + firstBowl.seedCount();
+        returnString += "  " + firstBowl.getNeighbour(1).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(2).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(3).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(4).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(5).seedCount();
+        return returnString;
     }
 
 
