@@ -1,10 +1,6 @@
 package nl.sogyo.mancala;
 
-public class Bowl implements IBowl {
-
-    private IBowl neighbour;
-    private Player owner;
-    private int seeds = 4;
+public class Bowl extends BaseBowl {
 
     public Bowl(Player owner) {
         this.owner = owner;
@@ -21,27 +17,8 @@ public class Bowl implements IBowl {
         }
     }
 
-    protected Player getOwner() {
-        return owner;
-    }
-
-    @Override
-    public int seedCount() {
-        return seeds;
-    }
-
-    protected void setSeeds(int count) {
-        seeds = count;
-    }
-
-    public IBowl getNeighbour() {
+    public BaseBowl getNeighbour() {
         return neighbour;
-    }
-
-    @Override
-    public IBowl getNeighbour(int count) {
-        count--;
-        return count < 0 ? this : count == 0 ? neighbour : neighbour.getNeighbour(count);
     }
 
     public void doTurn() {
@@ -101,6 +78,7 @@ public class Bowl implements IBowl {
         seeds = 0;
     }
 
+    @Override
     public void steal(int count) {
         neighbour.steal(count);
     }
