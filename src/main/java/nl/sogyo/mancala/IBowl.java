@@ -1,7 +1,5 @@
 package nl.sogyo.mancala;
 
-import java.util.ArrayList;
-
 public interface IBowl {
 
     public int seedCount();

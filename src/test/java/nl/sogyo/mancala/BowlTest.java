@@ -29,11 +29,12 @@ public class BowlTest {
         tearDown();
     }
 
-    @Test public void testGetNeighbours() {
+    @Test
+    public void testGetNeighbours() {
         setUp();
-        Bowl firstNeighbour = (Bowl)bowl1.getNeighbour();
-        Bowl firstNeighbourAlternative = (Bowl)bowl1.getNeighbour(1);
-        Kalaha kalaha = (Kalaha)bowl1.getNeighbour(6);
+        Bowl firstNeighbour = (Bowl) bowl1.getNeighbour();
+        Bowl firstNeighbourAlternative = (Bowl) bowl1.getNeighbour(1);
+        Kalaha kalaha = (Kalaha) bowl1.getNeighbour(6);
 
         Assert.assertEquals(firstNeighbourAlternative, firstNeighbour);
         Assert.assertTrue(kalaha instanceof Kalaha);
@@ -44,7 +45,7 @@ public class BowlTest {
     @Test
     public void testCreateNewKalaha() {
         setUp();
-        Kalaha kalaha = (Kalaha)bowl1.getNeighbour(6);
+        Kalaha kalaha = (Kalaha) bowl1.getNeighbour(6);
 
         int count = kalaha.seedCount();
 
@@ -96,7 +97,7 @@ public class BowlTest {
     @Test
     public void testDistributeSeedsOverOwnKalaha() {
         setUp();
-        Bowl bowl = (Bowl)bowl1.getNeighbour(4);
+        Bowl bowl = (Bowl) bowl1.getNeighbour(4);
 
         bowl.moveSeeds();
         int count5 = bowl.seedCount();
@@ -119,7 +120,7 @@ public class BowlTest {
     @Test
     public void testDistributeSeedsOverOpponentKalaha() {
         setUp();
-        Bowl bowl = (Bowl)bowl1.getNeighbour(11);
+        Bowl bowl = (Bowl) bowl1.getNeighbour(11);
 
         bowl.moveSeeds();
         int count12 = bowl.seedCount();
@@ -144,7 +145,7 @@ public class BowlTest {
     @Test
     public void testPutLastSeedInOwnKalaha() {
         setUp();
-        Bowl bowl3 = (Bowl)bowl1.getNeighbour(2);
+        Bowl bowl3 = (Bowl) bowl1.getNeighbour(2);
 
         bowl3.moveSeeds();
         int count3 = bowl3.seedCount();
@@ -167,7 +168,7 @@ public class BowlTest {
     @Test
     public void testGettingNeighbourAcross() {
         setUp();
-        Bowl expectedNeighbourAcross = (Bowl)bowl1.getNeighbour(12);
+        Bowl expectedNeighbourAcross = (Bowl) bowl1.getNeighbour(12);
 
         Bowl foundNeighbourAcross = bowl1.getCrossNeighbour();
 
@@ -179,7 +180,7 @@ public class BowlTest {
     @Test
     public void testGettingNeighbourAcrossFromOtherSide() {
         setUp();
-        Bowl callingBowl = (Bowl)bowl1.getNeighbour(12);
+        Bowl callingBowl = (Bowl) bowl1.getNeighbour(12);
         Bowl expectedNeighbourAcross = bowl1;
 
         Bowl foundNeighbourAcross = callingBowl.getCrossNeighbour();
@@ -218,7 +219,7 @@ public class BowlTest {
     public void testStealingFromFullNeighbourAcross() {
         setUp();
         Bowl neighbourAcross = bowl1.getCrossNeighbour();
-        Kalaha kalaha = (Kalaha)bowl1.getNeighbour(6);
+        Kalaha kalaha = (Kalaha) bowl1.getNeighbour(6);
 
         boolean canSteal = neighbourAcross.canSteal();
         neighbourAcross.steal();
@@ -235,10 +236,10 @@ public class BowlTest {
     @Test
     public void testCannotStealFromSelf() {
         setUp();
-        Bowl startingBowl = (Bowl)bowl1.getNeighbour(4);
-        Bowl stealingBowl = (Bowl)bowl1.getNeighbour(7);
+        Bowl startingBowl = (Bowl) bowl1.getNeighbour(4);
+        Bowl stealingBowl = (Bowl) bowl1.getNeighbour(7);
         Bowl neighbourAcross = stealingBowl.getCrossNeighbour();
-        Kalaha kalaha = (Kalaha)bowl1.getNeighbour(6);
+        Kalaha kalaha = (Kalaha) bowl1.getNeighbour(6);
         startingBowl.setSeeds(3);
         stealingBowl.setSeeds(0);
 
@@ -259,9 +260,9 @@ public class BowlTest {
     @Test
     public void testStealingFromTurn() {
         setUp();
-        Bowl bowl5 = (Bowl)bowl1.getNeighbour(4);
+        Bowl bowl5 = (Bowl) bowl1.getNeighbour(4);
         Bowl neighbourAcross = bowl5.getCrossNeighbour();
-        Kalaha kalaha = (Kalaha)bowl1.getNeighbour(6);
+        Kalaha kalaha = (Kalaha) bowl1.getNeighbour(6);
         bowl5.setSeeds(0);
 
         bowl1.doTurn();
@@ -292,13 +293,13 @@ public class BowlTest {
     @Test
     public void testGameOverWithOwnBowlsEmpty() {
         setUp();
-        Bowl bowl5 = (Bowl)bowl1.getNeighbour(5);
+        Bowl bowl5 = (Bowl) bowl1.getNeighbour(5);
         bowl1.setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(1)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(2)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(3)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(4)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(5)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(1)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(2)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(3)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(4)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(5)).setSeeds(0);
 
         boolean gameOver1 = bowl1.gameOver();
         boolean gameOver2 = bowl5.gameOver();
@@ -312,13 +313,13 @@ public class BowlTest {
     @Test
     public void testGameOverWithOpponentBowlsEmpty() {
         setUp();
-        Bowl bowl5 = (Bowl)bowl1.getNeighbour(5);
-        ((Bowl)bowl1.getNeighbour(7)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(8)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(9)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(10)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(11)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(12)).setSeeds(0);
+        Bowl bowl5 = (Bowl) bowl1.getNeighbour(5);
+        ((Bowl) bowl1.getNeighbour(7)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(8)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(9)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(10)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(11)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(12)).setSeeds(0);
 
         boolean gameOver1 = bowl1.gameOver();
         boolean gameOver2 = bowl5.gameOver();
@@ -347,7 +348,7 @@ public class BowlTest {
     @Test
     public void testDoFirstTurnOnWrongBowl() {
         setUp();
-        Bowl bowl7 = (Bowl)bowl1.getNeighbour(7);
+        Bowl bowl7 = (Bowl) bowl1.getNeighbour(7);
         Player player2 = player1.getOpponent();
 
         bowl7.doTurn();
@@ -376,11 +377,11 @@ public class BowlTest {
     public void testEndGameByPlayer1() {
         setUp();
         bowl1.setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(1)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(2)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(3)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(4)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(5)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(1)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(2)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(3)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(4)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(5)).setSeeds(0);
 
         bowl1.endGame();
         int count1 = bowl1.seedCount();
@@ -419,13 +420,13 @@ public class BowlTest {
     @Test
     public void testEndGameByPlayer2() {
         setUp();
-        Bowl bowl8 = (Bowl)bowl1.getNeighbour(7);
+        Bowl bowl8 = (Bowl) bowl1.getNeighbour(7);
         bowl8.setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(1)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(2)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(3)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(4)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(5)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(1)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(2)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(3)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(4)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(5)).setSeeds(0);
 
         bowl1.doTurn();
         bowl8.endGame();
@@ -465,13 +466,13 @@ public class BowlTest {
     @Test
     public void testEndGameByPlayer1WithPlayer2BowlsEmpty() {
         setUp();
-        Bowl bowl8 = (Bowl)bowl1.getNeighbour(7);
+        Bowl bowl8 = (Bowl) bowl1.getNeighbour(7);
         bowl8.setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(1)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(2)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(3)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(4)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(5)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(1)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(2)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(3)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(4)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(5)).setSeeds(0);
 
         bowl1.endGame();
         int count1 = bowl1.seedCount();
@@ -510,13 +511,13 @@ public class BowlTest {
     @Test
     public void testEndGameByPlayer2WithPlayer1BowlsEmpty() {
         setUp();
-        Bowl bowl6 = ((Bowl)bowl1.getNeighbour(5));
-        Bowl bowl8 = (Bowl)bowl1.getNeighbour(7);
+        Bowl bowl6 = ((Bowl) bowl1.getNeighbour(5));
+        Bowl bowl8 = (Bowl) bowl1.getNeighbour(7);
         bowl1.setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(1)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(2)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(3)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(4)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(1)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(2)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(3)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(4)).setSeeds(0);
 
         bowl6.doTurn();
         bowl8.endGame();
@@ -569,12 +570,12 @@ public class BowlTest {
     public void testGameWonByPlayer1() {
         setUp();
         bowl1.setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(1)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(2)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(3)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(4)).setSeeds(0);
-        ((Bowl)bowl1.getNeighbour(5)).setSeeds(0);
-        ((Kalaha)bowl1.getNeighbour(6)).setSeeds(25);
+        ((Bowl) bowl1.getNeighbour(1)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(2)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(3)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(4)).setSeeds(0);
+        ((Bowl) bowl1.getNeighbour(5)).setSeeds(0);
+        ((Kalaha) bowl1.getNeighbour(6)).setSeeds(25);
 
         bowl1.endGame();
         Player winner = bowl1.getWinner();
@@ -587,29 +588,20 @@ public class BowlTest {
     @Test
     public void testGameWonByPlayer2() {
         setUp();
-        Bowl bowl8 = (Bowl)bowl1.getNeighbour(7);
+        Bowl bowl8 = (Bowl) bowl1.getNeighbour(7);
         bowl8.setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(1)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(2)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(3)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(4)).setSeeds(0);
-        ((Bowl)bowl8.getNeighbour(5)).setSeeds(0);
-        ((Kalaha)bowl8.getNeighbour(6)).setSeeds(25);
+        ((Bowl) bowl8.getNeighbour(1)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(2)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(3)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(4)).setSeeds(0);
+        ((Bowl) bowl8.getNeighbour(5)).setSeeds(0);
+        ((Kalaha) bowl8.getNeighbour(6)).setSeeds(25);
 
         bowl1.doTurn();
         bowl1.endGame();
         Player winner = bowl1.getWinner();
 
         Assert.assertEquals(bowl8.getOwner(), winner);
-
-        tearDown();
-    }
-
-    @Test
-    public void testGetGameState() {
-        setUp();
-
-        bowl1.getGameState(bowl1);
 
         tearDown();
     }

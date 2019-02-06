@@ -1,7 +1,5 @@
 package nl.sogyo.mancala;
 
-import java.util.ArrayList;
-
 public class Bowl implements IBowl {
 
     private IBowl neighbour;
@@ -27,6 +25,7 @@ public class Bowl implements IBowl {
         return owner;
     }
 
+    @Override
     public int seedCount() {
         return seeds;
     }
@@ -39,6 +38,7 @@ public class Bowl implements IBowl {
         return neighbour;
     }
 
+    @Override
     public IBowl getNeighbour(int count) {
         count--;
         return count < 0 ? this : count == 0 ? neighbour : neighbour.getNeighbour(count);
@@ -52,11 +52,13 @@ public class Bowl implements IBowl {
 
     public void moveSeeds() {
         if (seeds > 0) {
-            neighbour.moveSeeds(seeds);
+            int count = seeds;
             seeds = 0;
+            neighbour.moveSeeds(count);
         }
     }
 
+    @Override
     public void moveSeeds(int count) {
         count--;
         seeds++;
@@ -83,6 +85,7 @@ public class Bowl implements IBowl {
         return (Bowl)neighbour.getCrossNeighbour(1, true);
     }
 
+    @Override
     public Bowl getCrossNeighbour(int count, boolean countingUp) {
         int change = countingUp ? 1 : -1;
         count += change;
@@ -107,6 +110,7 @@ public class Bowl implements IBowl {
         return seeds == 0 || !onMySide ? neighbour.gameOver(this) : false;
     }
 
+    @Override
     public boolean gameOver(Bowl startingBowl) {
         boolean onMySide = owner.yourTurn();
         return seeds == 0 || !onMySide ? startingBowl == this ? true : neighbour.gameOver(startingBowl) : false;
@@ -120,46 +124,28 @@ public class Bowl implements IBowl {
         }
     }
 
+    @Override
     public void endGame(int count) {
         count += seeds;
         seeds = 0;
         neighbour.endGame(count);
     }
 
+    @Override
     public void endGame(Kalaha firstKalaha, int count) {
         count += seeds;
         seeds = 0;
         neighbour.endGame(firstKalaha, count);
     }
 
+    @Override
     public Player getWinner() {
         return gameOver() ? neighbour.getWinner() : null;
     }
 
+    @Override
     public Player getWinner(int seedsOppositePlayer) {
         return neighbour.getWinner(seedsOppositePlayer);
     }
-
-    public String getGameState(IBowl firstBowl) {
-        String returnString = "";
-        returnString += "   " + firstBowl.getNeighbour(12).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(11).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(10).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(9).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(8).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(7).seedCount();
-        returnString += "  \n";
-        returnString += firstBowl.getNeighbour(13).seedCount() +
-                        "                    " +
-                        firstBowl.getNeighbour(6).seedCount() + "\n";
-        returnString += "   " + firstBowl.seedCount();
-        returnString += "  " + firstBowl.getNeighbour(1).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(2).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(3).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(4).seedCount();
-        returnString += "  " + firstBowl.getNeighbour(5).seedCount();
-        return returnString;
-    }
-
 
 }
