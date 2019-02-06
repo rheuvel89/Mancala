@@ -6,7 +6,7 @@ public class Kalaha extends BaseBowl {
         this.owner = owner;
         seeds = 0;
         count--;
-        neighbour = count > 0 ?   new Bowl(owner.getOpponent(), count, firstBowl) : firstBowl;
+        neighbour = count > 0 ? new Bowl(owner.getOpponent(), count, firstBowl) : firstBowl;
     }
 
     @Override

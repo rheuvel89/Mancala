@@ -10,11 +10,7 @@ public class Bowl extends BaseBowl {
     public Bowl(Player owner, int count, Bowl firstBowl) {
         this.owner = owner;
         count--;
-        if ((count - 1) % 7 == 0) {
-            neighbour = new Kalaha(owner, count, firstBowl);
-        } else {
-            neighbour = new Bowl(owner, count, firstBowl);
-        }
+        neighbour = ((count - 1) % 7 == 0) ? new Kalaha(owner, count, firstBowl) : new Bowl(owner, count, firstBowl);
     }
 
     public BaseBowl getNeighbour() {
