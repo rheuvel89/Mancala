@@ -605,13 +605,4 @@ public class BowlTest {
         tearDown();
     }
 
-    @Test
-    public void testGetGameState() {
-        setUp();
-
-        bowl1.getGameState(bowl1);
-
-        tearDown();
-    }
-
 }

@@ -17,9 +17,30 @@ public class Mancala {
 
     private static void printState() {
         System.out.println("14|13|12|11|10|9 |8---");
-        System.out.println((bowl1.getGameState(bowl1)));
+        System.out.println(getGameState(bowl1));
         System.out.println("---1 |2 |3 |4 |5 |6 |7");
 
+    }
+
+    private static String getGameState(IBowl firstBowl) {
+        String returnString = "";
+        returnString += "   " + firstBowl.getNeighbour(12).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(11).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(10).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(9).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(8).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(7).seedCount();
+        returnString += "  \n";
+        returnString += firstBowl.getNeighbour(13).seedCount() +
+                "                    " +
+                firstBowl.getNeighbour(6).seedCount() + "\n";
+        returnString += "   " + firstBowl.seedCount();
+        returnString += "  " + firstBowl.getNeighbour(1).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(2).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(3).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(4).seedCount();
+        returnString += "  " + firstBowl.getNeighbour(5).seedCount();
+        return returnString;
     }
 
     private static int getInput(String prompt) {

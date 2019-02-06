@@ -1,7 +1,5 @@
 package nl.sogyo.mancala;
 
-import java.util.ArrayList;
-
 public class Kalaha implements IBowl {
 
     private IBowl neighbour;
@@ -12,13 +10,10 @@ public class Kalaha implements IBowl {
         this.owner = owner;
         seeds = 0;
         count--;
-        if (count == 0) {
-            neighbour = firstBowl;
-        } else {
-            neighbour = new Bowl(owner.getOpponent(), count, firstBowl);
-        }
+        neighbour = count == 0 ? firstBowl : new Bowl(owner.getOpponent(), count, firstBowl);
     }
 
+    @Override
     public int seedCount() {
         return seeds;
     }
@@ -27,6 +22,7 @@ public class Kalaha implements IBowl {
         seeds = count;
     }
 
+    @Override
     public IBowl getNeighbour(int count) {
         count--;
         return count < 1 ? neighbour : neighbour.getNeighbour(count);
