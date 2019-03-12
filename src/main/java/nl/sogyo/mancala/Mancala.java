@@ -22,7 +22,7 @@ public class Mancala {
 
     }
 
-    private static String getGameState(IBowl firstBowl) {
+    private static String getGameState(BaseBowl firstBowl) {
         String returnString = "";
         returnString += "   " + firstBowl.getNeighbour(12).seedCount();
         returnString += "  " + firstBowl.getNeighbour(11).seedCount();
@@ -54,7 +54,7 @@ public class Mancala {
 
     private static void doTurn() {
         printState();
-        IBowl turnBowl = bowl1.getNeighbour(getInput(player1.yourTurn() ? "Player 1: " : "Player 2: "));
+        BaseBowl turnBowl = bowl1.getNeighbour(getInput(player1.yourTurn() ? "Player 1: " : "Player 2: "));
         if (turnBowl instanceof Bowl) {
             ((Bowl)turnBowl).doTurn();
         }

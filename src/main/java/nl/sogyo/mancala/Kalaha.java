@@ -1,31 +1,12 @@
 package nl.sogyo.mancala;
 
-public class Kalaha implements IBowl {
-
-    private IBowl neighbour;
-    private Player owner;
-    private int seeds = 4;
+public class Kalaha extends BaseBowl {
 
     public Kalaha(Player owner, int count, Bowl firstBowl) {
         this.owner = owner;
         seeds = 0;
         count--;
-        neighbour = count == 0 ? firstBowl : new Bowl(owner.getOpponent(), count, firstBowl);
-    }
-
-    @Override
-    public int seedCount() {
-        return seeds;
-    }
-
-    protected void setSeeds(int count) {
-        seeds = count;
-    }
-
-    @Override
-    public IBowl getNeighbour(int count) {
-        count--;
-        return count < 1 ? neighbour : neighbour.getNeighbour(count);
+        neighbour = count > 0 ? new Bowl(owner.getOpponent(), count, firstBowl) : firstBowl;
     }
 
     @Override
