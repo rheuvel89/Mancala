@@ -33,6 +33,10 @@ public class Mancala {
         return bowl.seedCount();
     }
 
+    public Player getPlayer1() {
+        return player1;
+    }
+
     public Player getActivePlayer() {
         return player1.yourTurn() ? player1 : player1.getOpponent();
     }
